@@ -2,21 +2,13 @@ name: 'Crafting Sandbox Action'
 description: 'Action used to generate Crafting Sandbox autolaunch URL'
 author: 'yuan@crafting.dev'
 inputs:
-  template:
+  name:
     required: true
-    description: 'template for the sandbox creation'
-  sandboxName:
+    description: 'name of the auto launch sandbox'
+  launch:
     required: true
-    description: 'name of the sandbox to be created'
-  workspaces:
-    required: false
-    description: 'workspaces related configuration'
-  dependencies:
-    required: false
-    description: 'dependencies related configuration'
-  containers:
-    required: false
-    description: 'containers related configuration'
+    description: 'the launch json file contains'
+    default: './.sandbox/launch.json'
 outputs:
   url:
     description: 'generated sandbox auto launch URL'

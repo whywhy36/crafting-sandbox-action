@@ -1,13 +1,14 @@
 import * as core from '@actions/core'
+import * as fs from 'fs'
 import {SandboxParams} from './generator'
 
 export function parseParams(): SandboxParams {
+  const name = core.getInput('name')
+  const paramsFile = core.getInput('launch')
+  const jsonString = fs.readFileSync(paramsFile).toString()
+  jsonString.replace('$BRANCH', process.env.GITHUB_HEAD_REF || '')
   return {
-    autoLaunch: true,
-    containers: [],
-    dependencies: [],
-    sandboxName: '',
-    template: '',
-    workspaces: []
-  }
+    ...JSON.parse(jsonString),
+    sandboxName: name
+  } as SandboxParams
 }

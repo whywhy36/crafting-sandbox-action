@@ -1,13 +1,11 @@
-import * as core from '@actions/core'
 import {SandboxParams} from './types'
 
 export async function generateSandboxLaunchUrl(
+  baseUrl: string,
   params: SandboxParams
 ): Promise<string> {
   const queryParams = await generateSandboxLaunchQueryParameters(params)
-  const baseUrl = core.getInput('baseUrl')
   const url = `${baseUrl}/create?${queryParams}`
-  core.setOutput('url', url)
   return url
 }
 

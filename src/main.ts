@@ -7,7 +7,8 @@ import {postComment} from './post-comment'
 async function run(): Promise<void> {
   try {
     const sandboxParams = parseParams()
-    const url = await generateSandboxLaunchUrl(sandboxParams)
+    const baseUrl = core.getInput('baseUrl')
+    const url = await generateSandboxLaunchUrl(baseUrl, sandboxParams)
     await postComment(url)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

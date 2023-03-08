@@ -2,29 +2,10 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 1419:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,13 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateSandboxLaunchQueryParameters = exports.generateSandboxLaunchUrl = void 0;
-const core = __importStar(__nccwpck_require__(2186));
-function generateSandboxLaunchUrl(params) {
+function generateSandboxLaunchUrl(baseUrl, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const queryParams = yield generateSandboxLaunchQueryParameters(params);
-        const baseUrl = core.getInput('baseUrl');
         const url = `${baseUrl}/create?${queryParams}`;
-        core.setOutput('url', url);
         return url;
     });
 }
@@ -119,7 +97,8 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const sandboxParams = (0, parser_1.parseParams)();
-            const url = yield (0, generators_1.generateSandboxLaunchUrl)(sandboxParams);
+            const baseUrl = core.getInput('baseUrl');
+            const url = yield (0, generators_1.generateSandboxLaunchUrl)(baseUrl, sandboxParams);
             yield (0, post_comment_1.postComment)(url);
         }
         catch (error) {

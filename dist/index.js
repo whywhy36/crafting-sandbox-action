@@ -157,9 +157,9 @@ function parseParams() {
     };
     const name = core.getInput('name');
     const paramsFile = core.getInput('launch');
-    const jsonString = fs.readFileSync(paramsFile).toString();
+    let jsonString = fs.readFileSync(paramsFile).toString();
     core.debug(`jsonString: ${jsonString}`);
-    jsonString.replace('$BRANCH', process.env.GITHUB_HEAD_REF || '');
+    jsonString = jsonString.replace('$BRANCH', process.env.GITHUB_HEAD_REF || '');
     return Object.assign(Object.assign(Object.assign({}, baseSandboxParams), JSON.parse(jsonString)), { sandboxName: name });
 }
 exports.parseParams = parseParams;

@@ -12,7 +12,7 @@ inputs:
   launch:
     required: true
     description: 'the launch json file contains'
-    default: './.sandbox/launch.json'
+    default: './.sandbox/launch.yaml'
 outputs:
   url:
     description: 'generated sandbox auto launch URL'

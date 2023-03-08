@@ -62,6 +62,6 @@ export async function generateSandboxLaunchQueryParameters(
   ].join('&')
 
   return new Promise(resolve => {
-    resolve(encodeURIComponent(queryParams))
+    resolve(queryParams)
   })
 }

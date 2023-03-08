@@ -38,7 +38,7 @@ function generateSandboxLaunchQueryParameters(params) {
             ...workspaceModesQueryParams
         ].join('&');
         return new Promise(resolve => {
-            resolve(encodeURIComponent(queryParams));
+            resolve(queryParams);
         });
     });
 }

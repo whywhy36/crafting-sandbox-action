@@ -54,7 +54,7 @@ function generateSandboxLaunchQueryParameters(params) {
         const containersQueryParams = params.containers.map(container => `container_${container.name}_snapshot=${container.snapshot}`);
         const dependenciesQueryParams = params.dependencies.map(dependency => `dep_${dependency.name}_snapshot=${dependency.snapshot}`);
         const checkoutsQueryParams = params.workspaces.flatMap(workspace => {
-            return workspace.checkouts.map(co => `ws_${workspace.name}_co_${co.name}=${co.version}`);
+            return workspace.checkouts.map(co => `ws_${workspace.name}_co_${co.name}_version=${co.version}`);
         });
         const workspaceModesQueryParams = params.workspaces
             .filter(ws => ws.auto)

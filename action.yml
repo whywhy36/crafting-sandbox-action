@@ -1,11 +1,25 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Crafting Sandbox Action'
+description: 'Action used to generate Crafting Sandbox autolaunch URL'
+author: 'yuan@crafting.dev'
 inputs:
-  milliseconds: # change this
+  template:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'template for the sandbox creation'
+  sandboxName:
+    required: true
+    description: 'name of the sandbox to be created'
+  workspaces:
+    required: false
+    description: 'workspaces related configuration'
+  dependencies:
+    required: false
+    description: 'dependencies related configuration'
+  containers:
+    required: false
+    description: 'containers related configuration'
+outputs:
+  url:
+    description: 'generated sandbox auto launch URL'
 runs:
   using: 'node16'
   main: 'dist/index.js'

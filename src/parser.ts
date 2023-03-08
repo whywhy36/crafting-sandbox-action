@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as fs from 'fs'
+import * as yaml from 'js-yaml'
 import {SandboxParams} from './types'
 
 export function parseParams(): SandboxParams {
@@ -13,12 +14,13 @@ export function parseParams(): SandboxParams {
   }
   const name = core.getInput('name')
   const paramsFile = core.getInput('launch')
-  let jsonString = fs.readFileSync(paramsFile).toString()
-  core.debug(`jsonString: ${jsonString}`)
-  jsonString = jsonString.replace('$BRANCH', process.env.GITHUB_HEAD_REF || '')
+  let yamlString = fs.readFileSync(paramsFile).toString()
+  core.debug(`configuration: ${yamlString}`)
+  yamlString = yamlString.replace('$BRANCH', process.env.GITHUB_HEAD_REF || '')
+  const config = yaml.load(yamlString) as Partial<SandboxParams>
   return {
     ...baseSandboxParams,
-    ...JSON.parse(jsonString),
+    ...config,
     sandboxName: name
   } as SandboxParams
 }

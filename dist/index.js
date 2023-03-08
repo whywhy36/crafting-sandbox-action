@@ -95,8 +95,11 @@ function run() {
             const octokit = github.getOctokit(process.env.GITHUB_TOKEN || '');
             const { owner, repo } = github.context.repo;
             const number = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
+            core.debug(`owner: ${owner}`);
+            core.debug(`repo: ${repo}`);
+            core.debug(`issue_number: ${number}`);
             if (number) {
-                yield octokit.request('POST /repos/{owner}/{repo}/issues/{pull_number}/comments', {
+                yield octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
                     owner,
                     repo,
                     issue_number: number,

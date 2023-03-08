@@ -11,9 +11,12 @@ async function run(): Promise<void> {
     const octokit = github.getOctokit(process.env.GITHUB_TOKEN || '')
     const {owner, repo} = github.context.repo
     const number = github.context.payload.pull_request?.number
+    core.debug(`owner: ${owner}`)
+    core.debug(`repo: ${repo}`)
+    core.debug(`issue_number: ${number}`)
     if (number) {
       await octokit.request(
-        'POST /repos/{owner}/{repo}/issues/{pull_number}/comments',
+        'POST /repos/{owner}/{repo}/issues/{issue_number}/comments',
         {
           owner,
           repo,

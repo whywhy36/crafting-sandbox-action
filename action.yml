@@ -2,6 +2,10 @@ name: 'Sandbox Auto Launch'
 description: 'Action used to generate Crafting Sandbox autolaunch URL'
 author: 'whywhy36@gmail.com'
 inputs:
+  baseUrl:
+    required: true
+    description: 'the base url of the sandbox'
+    default: 'https://sandboxes.cloud'
   name:
     required: true
     description: 'name of the auto launch sandbox'

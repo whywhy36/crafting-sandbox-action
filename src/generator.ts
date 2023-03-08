@@ -28,7 +28,7 @@ export interface SandboxParams {
   autoLaunch: boolean
 }
 
-export async function generateSandboxLaunchURL(
+export async function generateSandboxLaunchQueryParameters(
   params: SandboxParams
 ): Promise<string> {
   const templateQueryParam = `template=${params.template}`

@@ -16,8 +16,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.generateSandboxLaunchURL = void 0;
-function generateSandboxLaunchURL(params) {
+exports.generateSandboxLaunchQueryParameters = void 0;
+function generateSandboxLaunchQueryParameters(params) {
     return __awaiter(this, void 0, void 0, function* () {
         const templateQueryParam = `template=${params.template}`;
         const nameQueryParam = `sandbox_name=${params.sandboxName}`;
@@ -42,7 +42,7 @@ function generateSandboxLaunchURL(params) {
         });
     });
 }
-exports.generateSandboxLaunchURL = generateSandboxLaunchURL;
+exports.generateSandboxLaunchQueryParameters = generateSandboxLaunchQueryParameters;
 
 
 /***/ }),
@@ -90,7 +90,9 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const sandboxParams = (0, parser_1.parseParams)();
-            const url = yield (0, generator_1.generateSandboxLaunchURL)(sandboxParams);
+            const queryParams = yield (0, generator_1.generateSandboxLaunchQueryParameters)(sandboxParams);
+            const baseUrl = core.getInput('baseUrl');
+            const url = `${baseUrl}/create?${queryParams}`;
             core.setOutput('url', url);
             const octokit = github.getOctokit(process.env.GITHUB_TOKEN || '');
             const { owner, repo } = github.context.repo;
@@ -103,7 +105,7 @@ function run() {
                     owner,
                     repo,
                     issue_number: number,
-                    body: `Crafting Sandbox (Preview)[${url}]`,
+                    body: `Crafting Sandbox [Preview](${url})`,
                     headers: {
                         'X-GitHub-Api-Version': '2022-11-28'
                     }

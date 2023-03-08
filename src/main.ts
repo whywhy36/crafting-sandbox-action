@@ -1,12 +1,16 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {generateSandboxLaunchURL} from './generator'
+import {generateSandboxLaunchQueryParameters} from './generator'
 import {parseParams} from './parser'
 
 async function run(): Promise<void> {
   try {
     const sandboxParams = parseParams()
-    const url = await generateSandboxLaunchURL(sandboxParams)
+    const queryParams = await generateSandboxLaunchQueryParameters(
+      sandboxParams
+    )
+    const baseUrl = core.getInput('baseUrl')
+    const url = `${baseUrl}/create?${queryParams}`
     core.setOutput('url', url)
     const octokit = github.getOctokit(process.env.GITHUB_TOKEN || '')
     const {owner, repo} = github.context.repo
@@ -21,7 +25,7 @@ async function run(): Promise<void> {
           owner,
           repo,
           issue_number: number,
-          body: `Crafting Sandbox (Preview)[${url}]`,
+          body: `Crafting Sandbox [Preview](${url})`,
           headers: {
             'X-GitHub-Api-Version': '2022-11-28'
           }

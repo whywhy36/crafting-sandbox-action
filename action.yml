@@ -1,6 +1,6 @@
-name: 'Crafting Sandbox Action'
+name: 'Sandbox Auto Launch'
 description: 'Action used to generate Crafting Sandbox autolaunch URL'
-author: 'yuan@crafting.dev'
+author: 'whywhy36@gmail.com'
 inputs:
   name:
     required: true

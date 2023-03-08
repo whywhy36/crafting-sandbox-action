@@ -1,11 +1,30 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 6476:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ 1419:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,7 +35,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.generateSandboxLaunchQueryParameters = void 0;
+exports.generateSandboxLaunchQueryParameters = exports.generateSandboxLaunchUrl = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+function generateSandboxLaunchUrl(params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const queryParams = yield generateSandboxLaunchQueryParameters(params);
+        const baseUrl = core.getInput('baseUrl');
+        const url = `${baseUrl}/create?${queryParams}`;
+        core.setOutput('url', url);
+        return url;
+    });
+}
+exports.generateSandboxLaunchUrl = generateSandboxLaunchUrl;
 function generateSandboxLaunchQueryParameters(params) {
     return __awaiter(this, void 0, void 0, function* () {
         const templateQueryParam = `template=${params.template}`;
@@ -82,35 +112,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const github = __importStar(__nccwpck_require__(5438));
-const generator_1 = __nccwpck_require__(6476);
+const generators_1 = __nccwpck_require__(1419);
 const parser_1 = __nccwpck_require__(267);
+const post_comment_1 = __nccwpck_require__(1163);
 function run() {
-    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const sandboxParams = (0, parser_1.parseParams)();
-            const queryParams = yield (0, generator_1.generateSandboxLaunchQueryParameters)(sandboxParams);
-            const baseUrl = core.getInput('baseUrl');
-            const url = `${baseUrl}/create?${queryParams}`;
-            core.setOutput('url', url);
-            const octokit = github.getOctokit(process.env.GITHUB_TOKEN || '');
-            const { owner, repo } = github.context.repo;
-            const number = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
-            core.debug(`owner: ${owner}`);
-            core.debug(`repo: ${repo}`);
-            core.debug(`issue_number: ${number}`);
-            if (number) {
-                yield octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
-                    owner,
-                    repo,
-                    issue_number: number,
-                    body: `Crafting Sandbox [Preview](${url})`,
-                    headers: {
-                        'X-GitHub-Api-Version': '2022-11-28'
-                    }
-                });
-            }
+            const url = yield (0, generators_1.generateSandboxLaunchUrl)(sandboxParams);
+            yield (0, post_comment_1.postComment)(url);
         }
         catch (error) {
             if (error instanceof Error)
@@ -168,6 +178,71 @@ function parseParams() {
     return Object.assign(Object.assign(Object.assign({}, baseSandboxParams), JSON.parse(jsonString)), { sandboxName: name });
 }
 exports.parseParams = parseParams;
+
+
+/***/ }),
+
+/***/ 1163:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.postComment = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const github = __importStar(__nccwpck_require__(5438));
+const GITHUB_API_VERSION = '2022-11-28';
+function postComment(url) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function* () {
+        const octokit = github.getOctokit(process.env.GITHUB_TOKEN || '');
+        const { owner, repo } = github.context.repo;
+        const number = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
+        core.debug(`owner: ${owner}`);
+        core.debug(`repo: ${repo}`);
+        core.debug(`issue_number: ${number}`);
+        if (number) {
+            yield octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
+                owner,
+                repo,
+                issue_number: number,
+                body: `Crafting Sandbox [Preview](${url})`,
+                headers: {
+                    'X-GitHub-Api-Version': GITHUB_API_VERSION
+                }
+            });
+        }
+    });
+}
+exports.postComment = postComment;
 
 
 /***/ }),

@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as fs from 'fs'
-import {SandboxParams} from './generator'
+import {SandboxParams} from './types'
 
 export function parseParams(): SandboxParams {
   const baseSandboxParams: SandboxParams = {
